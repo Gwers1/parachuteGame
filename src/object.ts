@@ -1,3 +1,4 @@
+//"Physics" building block which every in game object extends from
 export class MovingObject {
     xPos: number;
     yPos: number;
