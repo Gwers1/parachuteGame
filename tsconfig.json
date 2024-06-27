@@ -106,6 +106,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "files": [
+    "src/index.ts",
     "src/game.ts",
     "src/plane.ts",
     "src/object.ts",

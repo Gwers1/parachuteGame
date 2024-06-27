@@ -1,36 +1,37 @@
-import { Plane } from './plane';
 import { MovingObject } from './object';
 
-const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+export class Game {
+    score: number;
+    lives: number;
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
 
-const planeImage = new Image();
-console.log("Importing");
-planeImage.src = "./resources/plane.png";
-console.log("After");
-// planeImage.onload = () => {
-//     ctx.drawImage(planeImage,x,y);
-// }
-const plane = new Plane(0, 0, 100, 100, 5, 0);
+    constructor(score: number, lives: number, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D){
+        this.score = score;
+        this.lives = lives;
+        this.canvas = canvas;
+        this.ctx = ctx;
+    }
 
-function drawPlane(plane: Plane){
-    ctx.save();
-    ctx.translate(plane.xPos, plane.yPos);
-    ctx.rotate(plane.direction * Math.PI / 180);
-    ctx.drawImage(planeImage, -planeImage.width/2, -planeImage.height/2);
-    ctx.restore();
+    drawObject(obj: MovingObject, img: HTMLImageElement){
+        this.ctx.save();
+        this.ctx.translate(obj.xPos, obj.yPos);
+        //this.ctx.rotate((obj.direction * Math.PI / 180)); 
+        //Needs to context.scale(-1, 1) whenever the object holding the image has a value(flip) that is true
+        //Which will later be false upon flipping
+        this.ctx.drawImage(img, -img.width/2, -img.height/2);
+        this.ctx.restore();
+    }
+
+    gameLoop(obj: MovingObject[]){
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        for(let i = 0; i < obj.length; i++){
+            obj[i].move(this.canvas.width, this.canvas.height);
+            this.drawObject(obj[i], obj[i].image);
+        }
+
+        requestAnimationFrame(() => this.gameLoop(obj));
+
+    }
 }
-
-function gameLoop(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log("AA");
-    plane.move(canvas.width, canvas.height);
-    
-    drawPlane(plane);
-    
-    requestAnimationFrame(gameLoop);
-}
-
-gameLoop();
-
-//The game will make all of the objects (Plane + Boat)

@@ -5,14 +5,16 @@ export class MovingObject {
     length:number;
     speed: number; //Pixels per update
     direction: number; //Degrees 0-360
+    image: HTMLImageElement;
 
-    constructor(xInit: number, yInit: number, height: number, length: number, speed: number, direction: number){
+    constructor(xInit: number, yInit: number, height: number, length: number, speed: number, direction: number, image: HTMLImageElement){
         this.xPos = xInit;
         this.yPos = yInit;
         this.height = height;
         this.length = length;
         this.speed = speed;
         this.direction = direction;
+        this.image = image;
     }
 
     move(canvasWidth : number, canvasLength: number) {
